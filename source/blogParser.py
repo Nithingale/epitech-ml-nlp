@@ -18,9 +18,8 @@ def parseBlogs(blogDir: str = 'blogs', blogCount: int = -1) -> list:
     blogUserList: list = []
     for blogFile in os.listdir(blogDir)[:blogCount] if blogCount >= 0 else os.listdir(blogDir):
         blogPath: str = f'{blogDir}/{blogFile}'
-        try:
-            blogData: str = ''.join(post.text for post in ET.parse(blogPath).getroot().findall('post'))
-            blogUserList.append(BlogUser(*blogFile.split('.')[:-1], blogData))
-        except:
-            continue
+        with open(blogPath, encoding = 'ISO-8859-1') as blogFileContent:
+            blogFileStr = blogFileContent.read().encode('ascii', errors = 'ignore')
+            blogData: str = ''.join(post.text for post in ET.fromstring(blogFileStr).findall('post'))
+        blogUserList.append(BlogUser(*blogFile.split('.')[:-1], blogData))
     return blogUserList
