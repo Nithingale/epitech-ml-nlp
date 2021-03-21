@@ -3,4 +3,5 @@
 __pycache__
 *.spec
 
+.venv
 blogs
