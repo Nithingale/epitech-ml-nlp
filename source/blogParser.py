@@ -1,25 +1,35 @@
 #!/bin/env python3
 
-import os
-import xml.etree.ElementTree as ET
+import csv
+import sys
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
 class BlogUser(object):
-    def __init__(self, id: str, gender: str, age: str, activity: str, astro: str, data: str):
-        self.id: int = int(id)
+    def __init__(self, gender: str, age: str, activity: str, astro: str, data: str):
         self.gender: str = gender
         self.age: int = int(age)
         self.activity: str = activity
         self.astro: str = astro
         self.data: str = data
 
-def parseBlogs(blogDir: str = 'blogs', blogCount: int = -1) -> list:
-    blogUserList: list = []
-    for blogFile in os.listdir(blogDir)[:blogCount] if blogCount >= 0 else os.listdir(blogDir):
-        blogPath: str = f'{blogDir}/{blogFile}'
-        with open(blogPath, encoding = 'ISO-8859-1') as blogFileContent:
-            blogFileStr = blogFileContent.read().encode('ascii', errors = 'ignore')
-            blogData: str = ''.join(post.text for post in ET.fromstring(blogFileStr).findall('post'))
-        blogUserList.append(BlogUser(*blogFile.split('.')[:-1], blogData))
-    return blogUserList
+    def __repr__(self):
+        return f'BlogUser({self.__dict__})'
+
+def parseBlogs(blogPath: str = 'blog.csv', blogCount: int = -1) -> list:
+    blogUserDict: dict = {}
+    with open(blogPath, errors = 'ignore', newline = '') as blogFile:
+        csv.field_size_limit(min(sys.maxsize, 1000000))
+        for row in csv.reader(line.replace('\0', '') for line in blogFile if line):
+            if 0 <= blogCount == len(blogUserDict.keys()):
+                break
+            try:
+                userId: int = int(row[0])
+                postText: str = row[6]
+                if userId not in blogUserDict:
+                    blogUserDict[userId] = BlogUser(*row[1:5], postText)
+                else:
+                    blogUserDict[userId].data += postText
+            except:
+                continue
+    return list(blogUserDict.values())
