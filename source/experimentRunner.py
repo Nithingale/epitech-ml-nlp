@@ -5,7 +5,10 @@ from sklearn.pipeline import Pipeline
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-def executePipeline(pipelineId: int, vectorizer: any, classifier: any, trainingX: list, trainingY: list, testX: list, testY: list) -> None:
+def runExperiment(experimentTime: str, experimentName: str, vectorizer: any, classifier: any, trainingX: list, trainingY: list, testX: list, testY: list) -> None:
+    print(f'INFO: Running the experiment \'{experimentName}\'...', flush = True)
+
+    # Run the training and the predictions
     pipeline = Pipeline([
         ('vectorizer', vectorizer),
         ('classifier', classifier)
@@ -13,8 +16,17 @@ def executePipeline(pipelineId: int, vectorizer: any, classifier: any, trainingX
     pipeline.fit(trainingX, trainingY)
     testYPredicted = pipeline.predict(testX)
 
-    with open(f'result/{pipelineId}.txt', 'w') as resultFile:
+    # Clear the training model of the memory
+    del vectorizer
+    del classifier
+    del pipeline
+
+    # Calculate and write the results in a file
+    with open(f'result/{experimentTime}.{experimentName}.txt', 'w') as resultFile:
         print('Accuracy:', accuracy_score(testY, testYPredicted), file = resultFile)
         print('Precision:', precision_score(testY, testYPredicted, average = 'micro'), file = resultFile)
         print('Recall:', recall_score(testY, testYPredicted, average = 'micro'), file = resultFile)
         print('F-score:', f1_score(testY, testYPredicted, average = 'micro'), file = resultFile)
+
+    # Clear the predictions of the memory
+    del testYPredicted
