@@ -7,4 +7,4 @@
 
 ## Notes
 - The program runs a lot of benchmarks, and some take a while to finish. Plan at least an hour to run the whole program.
-- The program was developed and tested on a computer equipped with 32GB of RAM. If you encounter memory errors, reduce the ```USERS_COUNT``` and the ```USERS_COUNT``` variables of the ```__main__.py``` file.
+- The program was developed and tested on a computer equipped with 32GB of RAM. If you encounter memory errors, reduce the ```USERS_COUNT``` and the ```FEATURES_COUNT``` variables of the ```__main__.py``` file.
