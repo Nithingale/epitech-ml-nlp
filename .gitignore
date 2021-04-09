@@ -3,6 +3,6 @@
 __pycache__
 *.spec
 
-.venv
-blog.csv
+*.csv
 result
+venv

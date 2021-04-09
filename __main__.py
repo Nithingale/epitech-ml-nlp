@@ -18,9 +18,9 @@ from source.benchmark import BenchmarkVectorizer, BenchmarkClassifier, Benchmark
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-DATASET_PATH = './blog.csv'
+DATASET_PATH = './blogtext.csv'
 USERS_COUNT: int = 10000 # Total number of users to use for training and testing (-1 = all users available)
-FEATURES_COUNT: any = 5000 # Maximum number of features to use in the vectorizers (None = all features available)
+FEATURES_COUNT: any = 10000 # Maximum number of features to use in the vectorizers (None = all features available)
 TRAINING_TEST_RATIO: float = 0.8
 USE_NTLK_TOKENIZER: bool = True
 
@@ -112,7 +112,6 @@ if __name__ == '__main__':
 
     print('INFO: Benchmarking Naive Bayes...', flush = True)
 
-    # For Naive Bayes we actually use more testing data than normally to improve our per-age predictions
     testXAge10: list = [data for data, userData in zip(testX, testData) if userData.age < 20]
     testXAge20: list = [data for data, userData in zip(testX, testData) if 20 <= userData.age < 30]
     testXAge30: list = [data for data, userData in zip(testX, testData) if 30 <= userData.age]
@@ -157,9 +156,9 @@ if __name__ == '__main__':
 
     print('INFO: Benchmarking Decision Tree (5/5)...', flush = True)
 
-    BenchmarkClassifier('DecisionTree.MaxFeatures5', DecisionTreeClassifier(max_features = 5)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
     BenchmarkClassifier('DecisionTree.MaxFeatures10', DecisionTreeClassifier(max_features = 10)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
     BenchmarkClassifier('DecisionTree.MaxFeatures20', DecisionTreeClassifier(max_features = 20)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
+    BenchmarkClassifier('DecisionTree.MaxFeatures30', DecisionTreeClassifier(max_features = 30)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
 
     print('INFO: Benchmarking Support Vector Machines (1/3)...', flush = True)
 
@@ -175,9 +174,9 @@ if __name__ == '__main__':
 
     print('INFO: Benchmarking Support Vector Machines (3/3)...', flush = True)
 
-    BenchmarkClassifier('SupportVectorMachine.Linear.Gamma001', SVC(kernel = 'rbf', gamma = 0.01)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
-    BenchmarkClassifier('SupportVectorMachine.Linear.Gamma1', SVC(kernel = 'rbf', gamma = 1.0)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
-    BenchmarkClassifier('SupportVectorMachine.Linear.Gamma100', SVC(kernel = 'rbf', gamma = 100.0)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
+    BenchmarkClassifier('SupportVectorMachine.RBF.Gamma001', SVC(kernel = 'rbf', gamma = 0.01)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
+    BenchmarkClassifier('SupportVectorMachine.RBF.Gamma1', SVC(kernel = 'rbf', gamma = 1.0)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
+    BenchmarkClassifier('SupportVectorMachine.RBF.Gamma100', SVC(kernel = 'rbf', gamma = 100.0)).run(timeStr, trainingXVectorized, trainingYGender, testXVectorized, testYGender)
 
     print('INFO: Success, the results are available in the \'result\' directory.', flush = True)
 

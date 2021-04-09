@@ -2,7 +2,7 @@
 ## Setup
 - Install the dependencies by running ```pip install -r requirements.txt``` in a terminal.
 - Download NLTK data using ```python -m nltk.downloader all```.
-- Place the dataset under the format CSV where you want it and make sure that the path matches with what is indicated in the variable ```DATASET_PATH``` of the ```__main__.py``` file.
+- Place the dataset (downloadable here https://www.kaggle.com/rtatman/blog-authorship-corpus) where you want it and make sure that the path matches with what is indicated in the variable ```DATASET_PATH``` of the ```__main__.py``` file.
 - Run the program by entering ```python .``` from its root directory.
 
 ## Notes
